@@ -21,6 +21,10 @@
 
 [MySQL用户及权限管理](https://github.com/oscarwin/blog/blob/master/MySQL用户及权限管理.md)
 
+[MySQL的一条查询和更新语句是怎样实现的](https://github.com/oscarwin/blog/blob/master/MySQL的一条查询和更新语句是怎样实现的.md)
+
+[MySQL索引](https://github.com/oscarwin/blog/blob/master/MySQL索引.md)
+
 ## 缓存
 [缓存](https://github.com/oscarwin/blog/blob/master/缓存.md)
 
