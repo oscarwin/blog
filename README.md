@@ -32,7 +32,7 @@
 [MySQL索引](https://github.com/oscarwin/blog/blob/master/MySQL索引.md)
 
 ## 缓存
-[缓存](https://github.com/oscarwin/blog/blob/master/缓存.md)
+[缓存设计与常见问题分析](https://github.com/oscarwin/blog/blob/master/缓存设计与常见问题分析.md)
 
 [基于REDIS实现延时任务](https://github.com/oscarwin/blog/blob/master/基于REDIS实现延时任务.md)
 
