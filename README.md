@@ -16,6 +16,12 @@
 
 [聊聊字符编码](https://github.com/oscarwin/blog/blob/master/聊聊字符编码)
 
+## 语言
+
+### C/C++
+
+[源码里的宏定义用法](https://github.com/oscarwin/blog/blob/master/源码里的宏定义用法)
+
 ## 储存
 [MySQL常用语法操作](https://github.com/oscarwin/blog/blob/master/MySQL常用语法操作.md)
 
