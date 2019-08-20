@@ -64,6 +64,8 @@ MySQL 的事务隔离级别包括：读未提交（read uncommitted）、读提�
 
 从上到下，隔离级别越来越高，效率相应也会随之降低，对于不同的隔离级别需要根据业务场景进行合理选择。
 
+### 查询和修改事务的隔离级别
+
 下面的命令可以查询 InnoDB 引擎全局的隔离级别和当前会话的隔离级别
 
 ```
@@ -75,12 +77,55 @@ mysql> select @@global.tx_isolation,@@tx_isolation;
 +-----------------------+-----------------+
 ```
 
+设置innodb的事务级别方法是：
 
+```SQL
+set 作用域 transaction isolation level 事务隔离级别
+
+SET [SESSION | GLOBAL] TRANSACTION ISOLATION LEVEL {READ UNCOMMITTED | READ COMMITTED | REPEATABLE READ | SERIALIZABLE}
+
+mysql> set global transaction isolation level read committed; // 设定全局的隔离级别为读提交
+
+mysql> set session transaction isolation level read committed; // 设定当前会话的隔离级别为读提交
+```
+
+### 举例说明不同隔离级别的影响
+
+接下来我们用一个案例来看不同隔离级别下会有怎样不同的结果。
+
+```SQL
+create table t (k int) ENGINE=InnoDB;
+insert into t values (1);
+```
+| 事务 A | 事务 B |
+| :---   | :---  |
+| begin  |  |
+| 1: select k from t | |
+| | begin; update t set k = k + 1 |
+| 2: select k from t | |
+| | commit |
+| 3: select k from t | |
+| commit | |
+| 4: select k from t | |
+
+隔离级别为未提交读时：对于事务 A，第1条查询语句的结果是1，第2条查询语句的结果是2，第3条和第4条查询语句的结果也都是2。
+
+隔离级别为读提交时：对于事务 A，第1条查询语句的结果是1，第2条查询语句的结果是1，第3条查询语句的结果是2，第4条查询语句的结果也是2。
+
+隔离级别为可重复读时：对于事务 A，第1条、第2条和第3条查询语句的结果都是1，第4条查询语句的结果是2。
+
+隔离级别为串行化时：对于事务 A，第1条查询语句的结果是1。这时事务 B 执行更新语句时会被阻塞，因为事务 A 在这条数据上加上了读锁，事务 B 要更新这个数据就必须加写锁，由于读锁和写锁冲突，因此事务 B 只能等到事务 A 提交后释放读锁才能进行更新。因此，事务 A 的第2条和第3条查询语句的结果也是1，第4条查询语句的结果是2。
+
+## 事务隔离性的实现
 
 ## 参考
 
-[1] 数据库系统概念(第6版)
+[1] 数据库系统概念（第6版）
 
 [2] MySQL实战45讲，林晓斌
 
-[3] 高性能MySQL
+[3] 高性能MySQL（第3版）
+
+[4] [事务的隔离级别和mysql事务隔离级别修改](https://www.cnblogs.com/549294286/p/5433318.html)
+
+[5] [MySQL 加锁处理分析, 何登成](https://github.com/hedengcheng/tech/blob/master/database/MySQL/MySQL%20%E5%8A%A0%E9%94%81%E5%A4%84%E7%90%86%E5%88%86%E6%9E%90.pdf)
