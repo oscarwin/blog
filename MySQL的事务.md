@@ -1,4 +1,4 @@
-# MySQL的事务与锁
+# MySQL的事务
 
 提到事务首先想到的当然是事务的四个特性：原子性、一致性、隔离性、持久性。事务的实现是由引擎层面来实现的，因此不同的存储引擎可能对事务有不同的实现方案。比如 MySQL 的 MyISAM 引擎就没有实现事务，这也是其被 InnoDB 所替代的原因之一。
 
@@ -88,6 +88,15 @@ mysql> set global transaction isolation level read committed; // 设定全局的
 
 mysql> set session transaction isolation level read committed; // 设定当前会话的隔离级别为读提交
 ```
+### 事务的启动方式
+
+- MySQL 里可以通过 begin 命令或 start transaction 来显示启动一个事务。显示开启的事务，需要使用 commit 命令进行提交。
+
+- MySQL 里如果没有显示执行命令开启事务，MySQL 也会在执行第一条命令的时候自动开启事务。如果自动提交 autocommit 处于开启状态，那么自动开启的事务也会被自动提交。那么执行一条 select 语句时，MySQL 首先会自动开启一个事务，并且在 select 语句执行完后自动提交。因此，在 MySQL 里执行一条语句时也是一个完整的事务。
+
+- 在 MySQL 里执行命令 set autocommit=0 可以关闭事务的自动提交。如果 autocommit 处于关闭状态，那么执行一条 select 语句时仍然会开启一个事务，并且在执行完成后不会自动提交。
+
+- begin 和 start transaction 命令并不是执行后立即开启一个事务，而是在执行第一条语句时才开启事务。start transaction with consistent snapshot 命令才是执行后就立即开启事务。
 
 ### 举例说明不同隔离级别的影响
 
@@ -138,8 +147,28 @@ InnoDB 给每一个事务维护一个唯一的事务 ID，事务 ID 是严格递
 
 ### 快照读和当前读
 
-InnoDB 给每一个事务生成一个唯一事务 ID 的方法称为生成快照，因此这种场景称为快照读。但是对于更新数据不能使用快照读，因为更新数据时如果使用快照读会可能会覆盖其他事务的更改。另外查询时如果加锁也会采用当前读的方式。InnoDB的多版本并发控制实现了在非快照读的隔离级别下读不加锁，提高了并发性能。
+InnoDB 给每一个事务生成一个唯一事务 ID 的方法称为生成快照，因此这种场景称为快照读。但是对于更新数据不能使用快照读，因为更新数据时如果使用快照读会可能会覆盖其他事务的更改。另外查询时如果加锁也会采用当前读的方式。当前读就是读这个数据最新的提交数据。InnoDB 的多版本并发控制实现了在串行化的隔离级别下读不加锁，提高了并发性能。
 
+下面通过一个例子来理解快照读和当前读：
+
+首先建一个表 t，并插入一条数据。
+```SQL
+mysql-> create table t(k int)ENGINE=InnoDB;
+mysql-> insert into t(k) values (1);
+```
+然后将事务的隔离级别设置为 REPEATABLE-READ，接着开启三个事务，并按照下面的顺序进行执行。
+| 事务 A | 事务 B | 事务 C |
+| :---   | :---  | :---  |
+| start transaction with consistent snapshot | | |
+| | start transaction with consistent snapshot | |
+| select k fromt t; | |
+| | select k from t; | |
+| | | update t set k = k + 1; |
+| | update t set k = k + 1; | |
+| | select k from t; commit; | |
+| select k from t; commit; | | |
+
+结果是：事务 A 两次读取的结果都是1，事务 B 第一次读取的结果是1，第二次读取的结果是 3。事务 A 两次都是快照读，在可重复读的隔离级别下，因此两次读到的结果相同。事务 B 第一次是快照读，但是 update 语句进行了一次当前读将 k 的值更新为事务 C 已经提交的结果 2，并且在此基础上再加1得到3。执行了 update
 
 最近在学习 MySQL 的原理，一篇文章做个笔记。
 
