@@ -23,6 +23,7 @@
 [源码里的宏定义用法](https://github.com/oscarwin/blog/blob/master/源码里的宏定义用法)
 
 ## 储存
+
 [MySQL常用语法操作](https://github.com/oscarwin/blog/blob/master/MySQL常用语法操作.md)
 
 [MySQL用户及权限管理](https://github.com/oscarwin/blog/blob/master/MySQL用户及权限管理.md)
@@ -30,6 +31,10 @@
 [MySQL的一条查询和更新语句是怎样实现的](https://github.com/oscarwin/blog/blob/master/MySQL的一条查询和更新语句是怎样实现的.md)
 
 [MySQL索引](https://github.com/oscarwin/blog/blob/master/MySQL索引.md)
+
+[MySQL的事务](https://github.com/oscarwin/blog/blob/master/MySQL的事务.md)
+
+[MySQL的锁](https://github.com/oscarwin/blog/blob/master/MySQL的锁.md)
 
 ## 缓存
 [缓存设计与常见问题分析](https://github.com/oscarwin/blog/blob/master/缓存设计与常见问题分析.md)
