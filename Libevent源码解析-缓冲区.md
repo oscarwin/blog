@@ -120,6 +120,8 @@ evbuffer 中，buffer 指向数据再 buffer 中的位置，orig_buffer 则永�
 
 ![evbuffer](./image/evbuffer.png)
 
+当读事件被激活后，就会调用 bufferevent_readcb 函数进行处理，该函数先判断读缓冲区是否已经达到高水位，如果已经达到高水位就将读事件删除，同时给 evbuffer 设定一个 callback 函数，当调用 evbuffer_read 函数时，如果 buffer 里的空间发生变化就会调用该函数判断是否要将读事件重新加入到事件循环中。然后调用 evbuffer_read 函数将数据从套接字中读入到 input 缓冲区中。
+
 ```
 static void
 bufferevent_readcb(int fd, short event, void *arg)

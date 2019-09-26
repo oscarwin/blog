@@ -383,4 +383,4 @@ event_base_loop(struct event_base *base, int flags)
 
 libevent 的事件循环的核心就是以上描述的这些了，对于细节地方的实现在我的 github 上给出了相应的中文注释。另外，网络上有一副图很直观的描述了 libevent 的事件循环，我将其重新画了一遍，稍微修改了一下，贴出来和大家交流。
 
-![libevent 事件循环](./image/libevent_core_flow.png)
+![libevent 事件循环](https://github.com/oscarwin/blog/blob/master/image/evbuffer.png)
