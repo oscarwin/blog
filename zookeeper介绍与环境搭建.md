@@ -2,7 +2,7 @@
 
 # 简介
 
-zookeeper是一个分布式服务框架，是Apache Hadoop 的一个子项目，它主要是用来解决分布式应用中经常遇到的一些数据管理问题，如：统一命名服务、状态同步服务、集群管理、分布式应用配置项的管理等。
+zookeeper是一个分布式服务框架，是Apache Hadoop 的一个子项目。zookeeper 之所以会出现，是因为在分布式系统中经常需要依赖一些公共的东西(比如配置文件)，但是提供这个服务的系统本身又不能是单点，因此就出现了 zookeeper 来解决这种场景的问题。目前主要用来解决分布式应用中经常遇到的一些数据管理问题，如：统一命名服务、状态同步服务、集群管理、分布式应用配置项的管理等。
 
 在介绍zookeeper集群是，zookeeper的机器称为服务端，用zookeeper来管理的分布式系统的机器称为客户端。
 
@@ -39,18 +39,20 @@ zookeeper实现简单的分布式锁，也可以采用相同的原理，创建�
 
 zookeeper是运行在JVM环境下的，所以首先要安装JVM环境。
 
-系统：centos
+### centos 系统安装 jdk1.8
 
-### 查看yum库中jdk的版本
+**执行以下命令，检查是否已经安装 jdk**
+    [root@localhost ~]# java -version
+
+**执行以下命令，查看yum库中jdk的版本**
 
     [root@localhost ~]# yum search java | grep jdk
 
+**执行以下命令，选择 jdk1.8 版本安装**
 
-### 选择1.8的版本安装
-
-    yum install java-1.8.0-openjdk
+    [root@localhost ~]# yum install java-1.8.0-openjdk
     
-### 修改环境变量
+**修改环境变量**
 
 jdk的默认安装路径为`/usr/lib/jvm`
 
@@ -79,12 +81,32 @@ jdk的默认安装路径为`/usr/lib/jvm`
     
 运行`source /etc/profile`让环境变量生效
 
-验证安装是否成功
+**验证安装是否成功**
 
     [root@localhost ~]# java -version
     openjdk version "1.8.0_201"
     OpenJDK Runtime Environment (build 1.8.0_201-b09)
     OpenJDK 64-Bit Server VM (build 25.201-b09, mixed mode)
+
+### debian 系统安装 jdk1.8
+
+**检查是否已经安装 jdk**
+
+    [root@localhost ~]# java -version
+
+**执行以下命令，更新软件包**
+
+    [root@localhost ~]# sudo apt update
+
+**安装 jdk**
+
+    [root@localhost ~]# sudo apt install default-jre // 安装jre
+    [root@localhost ~]# sudo apt install default-jdk // 安装jdk
+
+**环境变量的配置**
+
+环境变量的配置与上面类似，主要是要在环境变量中新增 JAVA_HOME, JRE_HOME, JAVA_HOME/bin, JRE_HOME/bin 四个环境变量。jdk 的默认安装路径是 `/usr/lib/jvm`。
+如果系统中安装了多个版本的 jdk，运行 `update-alternatives --config java`，然后输入指定版本的序号就可以选择该版本作为系统的当前版本。
 
 ## 2 安装zookeeper
 
@@ -143,7 +165,6 @@ jdk的默认安装路径为`/usr/lib/jvm`
     [root@localhost]# cd zookeeper-3.4.13/bin
     [root@localhost]# ./zkServer.sh start
     
+# 基于 Docker 搭建 zookeeper 集群
 
-
-
-    
+对于分布式系统，往往是集群部署，我们在进行实践时可能没有这么多机器来搭建集群，以前的办法是安装多个虚拟机，但是虚拟机还是太笨重，现在有了 docker 容器技术可以很方便的在一台物理机上搭建集群环境。接下来本文将详细描述如何用 docker 来搭建一个 zookeeper 集群。
