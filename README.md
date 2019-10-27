@@ -22,7 +22,7 @@
 
 [源码里的宏定义用法](https://github.com/oscarwin/blog/blob/master/源码里的宏定义用法.md)
 
-## 储存
+## 数据库
 
 [MySQL 常用语法操作](https://github.com/oscarwin/blog/blob/master/MySQL常用语法操作.md)
 
@@ -36,7 +36,7 @@
 
 [MySQL 的锁](https://github.com/oscarwin/blog/blob/master/MySQL的锁.md)
 
-## 缓存
+## Redis与缓存
 
 [缓存设计与常见问题分析](https://github.com/oscarwin/blog/blob/master/缓存设计与常见问题分析.md)
 
