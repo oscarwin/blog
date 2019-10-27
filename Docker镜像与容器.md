@@ -4,7 +4,7 @@ docker 是基于 Linux 内核的 cgroup 和 namespace 等技术实现的进程�
 
 docker 容器与传统的虚拟化技术最大的区别在于，传统的虚拟化技术是在宿主机器上虚拟出一套硬件后，在其上面运行完整的操作系统，然后在该系统上运行用户进程，属于硬件层面的虚拟化技术。而 docker 是操作系统层面的虚拟化技术，不需要虚拟化硬件，同一宿主机器上的所有容器共享宿主机的操作系统内核，只是在用户态隔离进程的运行环境和存储，因此对于操作的用户而言就好像是一台独立的主机。下图是 docker 官网上的一张对比图，左边描述的是 docker 容器技术，右边描述的是虚拟机技术。
 
-![docker与虚拟机的区别](./images/diff_container_virtual_machine.png)
+![docker与虚拟机的区别](https://github.com/oscarwin/blog/blob/master/image/diff_container_virtual_machine.png)
 
 这个区别使得 docker 相比与传统的虚拟化技术要轻量的多，启动一个虚拟机需要占用数 GB 的磁盘空间，需要几分钟的时间，而启动一个容器只一般只要几十 M，在秒级的时间内完成启动。
 
