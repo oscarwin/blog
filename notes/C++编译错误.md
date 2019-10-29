@@ -1,9 +1,9 @@
 **问题：** linux 生成动态库时提示relocation R_X86_64_32 against `__gxx_personality_v0' can not be used when making a shared object;
 
 图片：
-![](https://github.com/oscarwin/blog/blob/master/image/compile_error.png)
+![error](https://github.com/oscarwin/blog/blob/master/image/compile_error.png)
 
-**解决：**在编译add.o文件和sub.o时也应该加上-fPIC选项。原因：因为-fPIC选项让动态链接库生成地址无关的代码，动态链接库中所有函数地址应该都有一定的规则来选择，因此在编译动态库的依赖文件时也要加上该选项。（个人理解）
+**解决：** 在编译add.o文件和sub.o时也应该加上-fPIC选项。原因：因为-fPIC选项让动态链接库生成地址无关的代码，动态链接库中所有函数地址应该都有一定的规则来选择，因此在编译动态库的依赖文件时也要加上该选项。（个人理解）
 
 ---
 
