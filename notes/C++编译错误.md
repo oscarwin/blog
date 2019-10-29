@@ -1,4 +1,4 @@
-**问题：**linux 生成动态库时提示relocation R_X86_64_32 against `__gxx_personality_v0' can not be used when making a shared object;
+**问题：** linux 生成动态库时提示relocation R_X86_64_32 against `__gxx_personality_v0' can not be used when making a shared object;
 
 图片：
 ![](https://github.com/oscarwin/blog/blob/master/image/compile_error.png)
@@ -7,10 +7,10 @@
 
 ---
 
-**问题：**今天使用sort排序一个结构体，编译一直不过。
+**问题：** 今天使用sort排序一个结构体，编译一直不过。
 
 最开始是将自定义的比较函数放在头文件中
-**解决：**将比较函数放入cpp中，且声明为const类型的参数传入
+**解决：** 将比较函数放入cpp中，且声明为const类型的参数传入
 ```
 bool _MyComparisonFun(const boss::shopgroup::shopgroup_shop_struct::stShopgroupActiveInfo& a, const boss::shopgroup::shopgroup_shop_struct::stShopgroupActiveInfo& b)
 {
