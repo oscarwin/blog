@@ -26,7 +26,7 @@
 
 [MySQL 常用语法操作](https://github.com/oscarwin/blog/blob/master/MySQL常用语法操作.md)
 
-[MySQL 用户及权限管理](https://github.com/oscarwin/blog/blob/master/MySQL用户及权限管理.md)
+[MySQL 用户及权限管理](https://github.com/oscarwin/blog/blob/master/MySQL用户权限管理.md)
 
 [MySQL 的一条查询和更新语句是怎样实现的](https://github.com/oscarwin/blog/blob/master/MySQL的一条查询和更新语句是怎样实现的.md)
 
