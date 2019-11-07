@@ -284,7 +284,7 @@ insert into t (id, user) values (1, 'a'),(5, 'b'),(10, 'c'),(15, 'd'),(20, 'e');
 
 加锁过程：通过主键索引进行等值查询找到 id 为10的行，加 (5, 10] 的 next-key lock，根据优化1会退化为行锁，因此最后只锁了 id 为10的行。加锁的结果如下图所示：
 
-![](./images/mysql_lock_rr_1.png)
+![](https://github.com/oscarwin/blog/blob/master/image/mysql_lock_rr_1.png)
 
 2. 隔离级别为可重复读，id 是主键索引，范围查询；
 
@@ -294,7 +294,7 @@ insert into t (id, user) values (1, 'a'),(5, 'b'),(10, 'c'),(15, 'd'),(20, 'e');
 
 最终加锁的结果如下图所示：
 
-![](./images/mysql_lock_rr_2.png)
+![](https://github.com/oscarwin/blog/blob/master/image/mysql_lock_rr_2.png)
 
 ps：图中用灰色背景填充的行表示加 X 锁，用红色 V 字在两个行之间表示加间隙锁，文章后面若无单独说明，均表示此含义。
 
@@ -302,7 +302,7 @@ ps：图中用灰色背景填充的行表示加 X 锁，用红色 V 字在两个
 
 加锁过程：通过唯一辅助索引进行等值查询找到 id 为10的行，加 (5, 10] 的 next-key lock，根据优化1会退化为行锁，并且要将主键索引上对应的行加上 X 锁。
 
-![](./images/mysql_lock_rr_3.png)
+![](https://github.com/oscarwin/blog/blob/master/image/mysql_lock_rr_3.png)
 
 4. 隔离级别为可重复读，id 是唯一索引，范围查询；
 
@@ -312,7 +312,7 @@ ps：图中用灰色背景填充的行表示加 X 锁，用红色 V 字在两个
 
 最终加锁的结果如下图所示：
 
-![](./images/mysql_lock_rr_4.png)
+![](https://github.com/oscarwin/blog/blob/master/image/mysql_lock_rr_4.png)
 
 5. 隔离级别为可重复读，id 是普通索引，等值查询；
 
@@ -322,23 +322,23 @@ ps：图中用灰色背景填充的行表示加 X 锁，用红色 V 字在两个
 
 最终加锁的结果如下图所示：
 
-![](./images/mysql_lock_rr_5.png)
+![](https://github.com/oscarwin/blog/blob/master/image/mysql_lock_rr_5.png)
 
 6. 隔离级别为可重复读，id 是普通索引，范围查询；
 
 这种情况的加锁状态与情况4相同，不在赘述，加锁结果如下：
 
-![](./images/mysql_lock_rr_6.png)
+![](https://github.com/oscarwin/blog/blob/master/images/mysql_lock_rr_6.png)
 
 7. 隔离级别为可重复读，id 无索引，等值查询；
 
 当 id 上无索引时
 
-![](./images/mysql_lock_rr_7.png)
+![](https://github.com/oscarwin/blog/blob/master/images/mysql_lock_rr_7.png)
 
 8. 隔离级别为可重复读，id 无索引，范围查询；
 
-![](./images/mysql_lock_rr_8.png)
+![](https://github.com/oscarwin/blog/blob/master/images/mysql_lock_rr_8.png)
 
 ## 参考
 
