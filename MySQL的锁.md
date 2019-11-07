@@ -190,8 +190,6 @@ Gap 锁就是间隙锁，是 InnoDB 引擎为了避免幻读而引入的。在 M
 
 首先启动事务时，将当前会话的隔离级别设置为提交读，在提交读的隔离级别下 binlog 的日志格式要设置为 ROW，否者 MySQL 会报错，因为在提交读的隔离级别下 STATEMENT 格式的 binlog 日志可能会出现不一致的情况。在事务 A 中第一次执行 `select * from t where c in (1, 2, 3) for update;` 时会将所有 c 值为1-3的行都加上行锁，但是这并不能阻止事务 B 插入一个新的行且字段 c 的值也为1。这就导致，虽然事务 B 还未提交，但是事务 A 第二次查询比第一次查询得到的行数更多，这种现象就叫幻读。
 
-```
-
 ## 加锁实践
 
 上面已经讲解了 MySQL 里主要的锁概念，在工作中我们遇到更多的时要分析语句执行时会怎么加锁，一是要保证数据安全，二是要避免死锁，三是要考虑锁带来的性能瓶颈，下面一起来分析一下在 MySQL 执行一条语句时会怎么加锁。
@@ -242,7 +240,7 @@ select * from t where id = 0 for update;
 
 隔离级别为读提交时，MySQL 不会加 Gap 锁，因此只有行锁加锁比较容易分析。分为四种情况：id 是主键索引，id 是唯一辅助索引，id 是普通辅助索引，id 上没有索引。加锁的情况如下图所示，数据为灰色背景的表示加上了 X 锁。
 
-![读隔离级别下的加锁](../image/mysql_lock_rc.png)
+![读隔离级别下的加锁](./image/mysql_lock_rc.png)
 
 （1）隔离级别为读提交，id 是主键索引。只在主键索引上满足 where 条件的所有行加 X 锁。
 
@@ -286,7 +284,7 @@ insert into t (id, user) values (1, 'a'),(5, 'b'),(10, 'c'),(15, 'd'),(20, 'e');
 
 加锁过程：通过主键索引进行等值查询找到 id 为10的行，加 (5, 10] 的 next-key lock，根据优化1会退化为行锁，因此最后只锁了 id 为10的行。加锁的结果如下图所示：
 
-![](../images/mysql_lock_rr_1.png)
+![](./images/mysql_lock_rr_1.png)
 
 2. 隔离级别为可重复读，id 是主键索引，范围查询；
 
@@ -296,7 +294,7 @@ insert into t (id, user) values (1, 'a'),(5, 'b'),(10, 'c'),(15, 'd'),(20, 'e');
 
 最终加锁的结果如下图所示：
 
-![](../images/mysql_lock_rr_2.png)
+![](./images/mysql_lock_rr_2.png)
 
 ps：图中用灰色背景填充的行表示加 X 锁，用红色 V 字在两个行之间表示加间隙锁，文章后面若无单独说明，均表示此含义。
 
@@ -304,7 +302,7 @@ ps：图中用灰色背景填充的行表示加 X 锁，用红色 V 字在两个
 
 加锁过程：通过唯一辅助索引进行等值查询找到 id 为10的行，加 (5, 10] 的 next-key lock，根据优化1会退化为行锁，并且要将主键索引上对应的行加上 X 锁。
 
-![](../images/mysql_lock_rr_3.png)
+![](./images/mysql_lock_rr_3.png)
 
 4. 隔离级别为可重复读，id 是唯一索引，范围查询；
 
@@ -314,7 +312,7 @@ ps：图中用灰色背景填充的行表示加 X 锁，用红色 V 字在两个
 
 最终加锁的结果如下图所示：
 
-![](../images/mysql_lock_rr_4.png)
+![](./images/mysql_lock_rr_4.png)
 
 5. 隔离级别为可重复读，id 是普通索引，等值查询；
 
@@ -324,23 +322,23 @@ ps：图中用灰色背景填充的行表示加 X 锁，用红色 V 字在两个
 
 最终加锁的结果如下图所示：
 
-![](../images/mysql_lock_rr_5.png)
+![](./images/mysql_lock_rr_5.png)
 
 6. 隔离级别为可重复读，id 是普通索引，范围查询；
 
 这种情况的加锁状态与情况4相同，不在赘述，加锁结果如下：
 
-![](../images/mysql_lock_rr_6.png)
+![](./images/mysql_lock_rr_6.png)
 
 7. 隔离级别为可重复读，id 无索引，等值查询；
 
 当 id 上无索引时
 
-![](../images/mysql_lock_rr_7.png)
+![](./images/mysql_lock_rr_7.png)
 
 8. 隔离级别为可重复读，id 无索引，范围查询；
 
-![](../images/mysql_lock_rr_8.png)
+![](./images/mysql_lock_rr_8.png)
 
 ## 参考
 
