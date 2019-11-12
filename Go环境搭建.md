@@ -7,7 +7,7 @@ Go 安装整体来说都是非常简单的，下面分别说明在不同操作�
 
 **下载安装包**
 
-访问![下载网址](https://golang.google.cn/dl/)下载 linux 系统的最新版本安装包，或者复制下载链接（安装包的下载链接上右键-复制链接地址）后使用 wget 命令进行下载，我写这篇文章时最新稳定版本为 1.13.4。
+访问[下载网址](https://golang.google.cn/dl/)下载 linux 系统的最新版本安装包，或者复制下载链接（安装包的下载链接上右键-复制链接地址）后使用 wget 命令进行下载，我写这篇文章时最新稳定版本为 1.13.4。
 
 ```
 wget https://dl.google.com/go/go1.13.4.linux-amd64.tar.gz
@@ -130,7 +130,15 @@ touch hello.go
 向 hello.go 中输入以下代码，并保存文件：
 
 ```
+package myhello
 
+import (
+        "fmt"
+)
+
+func Hello() {
+        fmt.Println("hello!")
+}
 ```
 
 然后在 myhello 目录执行里 go install 命令，这时候就会在 pkg 目录下生成 linux_amd64 文件夹，该文件夹中有一个 myhello.a 文件。linux_amd64 的名称是与平台相关的。因为 myhello 项目中没有 main 函数，所以 go install 命令不会将其编译成可执行文件，只是将其编译成供其他包使用的包文件，并存放在 pkg 目录。这时候工作目录结构如下：
@@ -187,7 +195,7 @@ hello!
 
 除了使用自己编写的包以外，项目中还会经常依赖到开源的一些工具包。通过 go get 命令就可以获取远程包，而且 go get 命令不仅仅下载了该包，而且还会自动进行安装，目前 go get 支持多个开源社区（例如：github、googlecode、bitbucket、Launchpad）。
 
-以 github 上 kafka 的 go 版本客户端为例，该项目的地址为：https://github.com/segmentio/kafka-go。那么运行如下命令就能将其下载并安装到本机（安装过程有点慢，稍微等一下）。
+以 github 上 kafka 的 go 版本客户端为例，该项目的地址为：[https://github.com/segmentio/kafka-go](https://github.com/segmentio/kafka-go)。那么运行如下命令就能将其下载并安装到本机（安装过程有点慢，稍微等一下）。
 
 ```
 go get -u github.com/segmentio/kafka-go
