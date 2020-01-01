@@ -1,11 +1,15 @@
 
-## Go 安装
+## GO 环境搭建
 
 Go 安装整体来说都是非常简单的，下面分别说明在不同操作系统上的安装步骤
 
 ### Linux 上安装
 
 **下载安装包**
+
+
+
+
 
 访问[下载网址](https://golang.google.cn/dl/)下载 linux 系统的最新版本安装包，或者复制下载链接（安装包的下载链接上右键-复制链接地址）后使用 wget 命令进行下载，我写这篇文章时最新稳定版本为 1.13.4。
 
@@ -108,7 +112,7 @@ Go 的工作目录的格式是固定的，在 Go 的工作目录里分为三个�
 
 之前安装 Go 时直接在 shell 中通过 export 命令设定环境变量，这种方式设定的环境变量是临时的，机器重启后需要重新设定，现在我们用修改文件的方式来设定环境变量。
 
-执行下面的命令，用 vim 打开 /etc/profile，在该文件的最后添加下面几行。其中我注释了 GOBIN 的环境变量，你可以启用也可以注释。另外在 PATH 里添加了 $GOROOT/bin 和 $GOPATH/bin，这样这两个目录里的可执行文件就可以在任意目录下使用命令行运行了。
+执行下面的命令，用 vim 打开 /etc/profile，在该文件的最后添加下面几行，保存后执行 source /etc/profile。
 
 ```
 export GOROOT=/usr/local/go
@@ -116,6 +120,8 @@ export GOPATH=/home/mygo
 #export GOBIN=$GOPATH/bin
 export PATH=$PATH:$GOROOT/bin:$GOPATH/bin
 ```
+
+其中我注释了 GOBIN 的环境变量，你可以启用也可以注释。另外在 PATH 里添加了 $GOROOT/bin 和 $GOPATH/bin，这样这两个目录里的可执行文件就可以在任意目录下使用命令行运行了。
 
 ### 一个最简单的 go 项目
 
